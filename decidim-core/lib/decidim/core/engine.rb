@@ -46,6 +46,7 @@ require "anchored"
 require "decidim/api"
 require "decidim/middleware/strip_x_forwarded_host"
 require "decidim/middleware/current_organization"
+require "decidim/middleware/main_app_polymorphic_mappings"
 
 module Decidim
   module Core
@@ -65,6 +66,7 @@ module Decidim
       initializer "decidim.middleware" do |app|
         app.config.middleware.insert_before Warden::Manager, Decidim::Middleware::CurrentOrganization
         app.config.middleware.insert_before Warden::Manager, Decidim::Middleware::StripXForwardedHost
+        app.config.middleware.use Decidim::Middleware::MainAppPolymorphicMappings
         app.config.middleware.use BatchLoader::Middleware
       end
 
