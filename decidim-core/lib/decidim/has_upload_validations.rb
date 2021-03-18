@@ -15,6 +15,12 @@ module Decidim
           file_size: { less_than_or_equal_to: max_size },
           uploader_content_type: true
         )
+
+        if block_given?
+          attached_config[attribute] = OpenStruct.new(options)
+
+          yield(attached_config[attribute])
+        end
       end
 
       def validates_avatar(attribute = :avatar)
@@ -23,6 +29,24 @@ module Decidim
           max_size: ->(record) { record.maximum_avatar_size }
         )
       end
+
+      def attached_config
+        @attached_config ||= superclass.respond_to?(:attached_config) ? superclass.attached_config.dup : {}
+      end
+
+      def attached_options(attached, options = {})
+        attached_config[attached] = OpenStruct.new(options)
+
+        yield(attached_config[attached]) if block_given?
+      end
+    end
+
+    delegate :attached_config, to: :class
+
+    def attached_uploader(attached_name)
+      return if (uploader = attached_config.dig(attached_name, :uploader)).blank?
+
+      uploader.new(self)
     end
 
     def maximum_upload_size
