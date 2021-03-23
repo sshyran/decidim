@@ -6,7 +6,7 @@ module Decidim::Votings::Census::Admin
   describe LaunchAccessCodesGeneration do
     subject { described_class.new(dataset, user) }
 
-    let(:dataset) { create(:dataset, status: :data_created) }
+    let(:dataset) { create(:dataset, :data_created) }
     let(:user) { create(:user, :admin) }
 
     context "when the inputs are not valid" do
@@ -29,7 +29,7 @@ module Decidim::Votings::Census::Admin
     end
 
     context "when the inputs are valid" do
-      let(:dataset) { create(:dataset, :with_datum, status: :data_created) }
+      let(:dataset) { create(:dataset, :with_datum, :data_created) }
 
       it "updates the data" do
         expect(subject).to broadcast(:ok)
