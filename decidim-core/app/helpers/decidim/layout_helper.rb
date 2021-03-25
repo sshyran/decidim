@@ -41,7 +41,7 @@ module Decidim
 
       content_tag :svg, html_properties do
         inner = content_tag :title, options["title"] || html_properties["aria-label"]
-        inner += content_tag :use, nil, role: options[:role], "href" => "#{asset_path("decidim/icons.svg")}#icon-#{name}"
+        inner += content_tag :use, nil, role: options[:role], "href" => "#{asset_pack_path("media/images/icons.svg")}#icon-#{name}"
 
         inner
       end
