@@ -103,6 +103,10 @@ FactoryBot.define do
     trait :data_created do
       status { "data_created" }
     end
+
+    trait :codes_generated do
+      status { "codes_generated" }
+    end
   end
 
   factory :datum, class: "Decidim::Votings::Census::Datum" do
